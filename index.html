@@ -3,859 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PromptCraft | AI Prompt Generator & Enhancer</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <title>Number Blocks Merge Game</title>
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a0ca3;
-            --accent: #f72585;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4cc9f0;
-            --warning: #f9c74f;
-            --danger: #f94144;
-            --gray: #6c757d;
-            --border-radius: 12px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+            color: white;
         }
-
+        
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-
+        
         header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 700;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-            margin-bottom: 25px;
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-5px);
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary-dark);
-        }
-
-        .input-section {
-            margin-bottom: 30px;
-        }
-
-        .form-group {
             margin-bottom: 20px;
         }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-
-        input, select, textarea {
+        
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .score-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .score-title {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-cell {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .number-block {
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            cursor: grab;
+            user-select: none;
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: var(--transition);
+            height: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        
+        .number-block:active {
+            cursor: grabbing;
+            transform: scale(1.05);
         }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
+        
+        .next-block {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+        
+        .next-block-display {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        button {
+            background: #ff6b6b;
             color: white;
             border: none;
-            border-radius: var(--border-radius);
-            font-family: 'Inter', sans-serif;
+            padding: 12px 25px;
+            border-radius: 50px;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: bold;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--box-shadow);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+        
+        button:hover {
+            background: #ff8e8e;
+            transform: translateY(-2px);
         }
-
-        .btn-secondary {
-            background: linear-gradient(90deg, var(--gray), #5a6268);
+        
+        button:active {
+            transform: translateY(0);
         }
-
-        .btn-accent {
-            background: linear-gradient(90deg, var(--accent), #b5179e);
+        
+        #new-game {
+            background: #1dd1a1;
         }
-
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+        
+        #new-game:hover {
+            background: #2ecc71;
         }
-
-        .prompts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .prompt-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .prompt-content {
-            min-height: 200px;
-            padding: 20px;
-            background: var(--light);
-            border-radius: var(--border-radius);
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            white-space: pre-wrap;
-        }
-
-        .model-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--primary);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: space-between;
+        
+        .instructions {
             margin-top: 20px;
-        }
-
-        .enhancement-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .option-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: var(--light);
-            border-radius: var(--border-radius);
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .saved-prompts {
-            margin-top: 40px;
-        }
-
-        .saved-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .saved-item {
-            padding: 15px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .saved-item:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transform: translateY(-3px);
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            background: white;
-            border-left: 4px solid var(--success);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.error {
-            border-left-color: var(--danger);
-        }
-
-        footer {
             text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: var(--gray);
             font-size: 0.9rem;
+            opacity: 0.8;
+            max-width: 500px;
         }
-
-        @media (max-width: 768px) {
-            .controls, .enhancement-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .prompts-container {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .actions {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .actions button {
-                width: 100%;
-            }
-        }
+        
+        /* Number block colors based on value */
+        .block-2 { background: #ffeaa7; color: #2d3436; }
+        .block-4 { background: #fab1a0; color: #2d3436; }
+        .block-8 { background: #ff7675; color: white; }
+        .block-16 { background: #fd79a8; color: white; }
+        .block-32 { background: #e84393; color: white; }
+        .block-64 { background: #6c5ce7; color: white; }
+        .block-128 { background: #00cec9; color: white; }
+        .block-256 { background: #00b894; color: white; }
+        .block-512 { background: #fdcb6e; color: #2d3436; }
+        .block-1024 { background: #e17055; color: white; }
+        .block-2048 { background: #d63031; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>PromptCraft</h1>
-            <p>Generate and enhance prompts for AI code generation models. Perfect for developers looking to get the most out of Gemini and other AI models.</p>
+            <h1>Number Blocks Merge</h1>
+            <p>Drag and drop blocks to merge numbers</p>
         </header>
-
-        <section class="card input-section">
-            <h2 class="card-title">Describe Your Task</h2>
-            <div class="form-group">
-                <label for="userInput">What would you like to create?</label>
-                <textarea id="userInput" placeholder="e.g., create a to-do list app with local storage"></textarea>
+        
+        <div class="score-container">
+            <div class="score-box">
+                <div class="score-title">SCORE</div>
+                <div class="score-value" id="score">0</div>
             </div>
-            <button id="generateBtn" class="btn">Generate Prompts</button>
-        </section>
-
-        <section class="card enhancement-section" style="display: none;">
-            <h2 class="card-title">Refinement Options</h2>
-            <div class="controls">
-                <div class="form-group">
-                    <label for="language">Programming Language</label>
-                    <select id="language">
-                        <option value="JavaScript">JavaScript</option>
-                        <option value="Python">Python</option>
-                        <option value="Java">Java</option>
-                        <option value="C++">C++</option>
-                        <option value="HTML/CSS">HTML/CSS</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="style">Code Style</label>
-                    <select id="style">
-                        <option value="minimalist">Minimalist</option>
-                        <option value="modern">Modern</option>
-                        <option value="playful">Playful</option>
-                        <option value="professional">Professional</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="complexity">Complexity Level</label>
-                    <select id="complexity">
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="format">Output Format</label>
-                    <select id="format">
-                        <option value="full">Full Application</option>
-                        <option value="function">Function Only</option>
-                        <option value="json">JSON</option>
-                        <option value="html">HTML</option>
-                        <option value="text">Plain Text</option>
-                    </select>
-                </div>
+            <div class="score-box">
+                <div class="score-title">BEST</div>
+                <div class="score-value" id="best">0</div>
             </div>
-
-            <h3 class="card-title">Enhancement Options</h3>
-            <div class="enhancement-options">
-                <div class="option-toggle">
-                    <span>Modern Styling</span>
-                    <label class="switch">
-                        <input type="checkbox" id="modernStyling" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="option-toggle">
-                    <span>Responsive Design</span>
-                    <label class="switch">
-                        <input type="checkbox" id="responsiveDesign" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="option-toggle">
-                    <span>Hover Effects</span>
-                    <label class="switch">
-                        <input type="checkbox" id="hoverEffects" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="option-toggle">
-                    <span>Animations</span>
-                    <label class="switch">
-                        <input type="checkbox" id="animations" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <button id="refineBtn" class="btn btn-accent">Refine Prompts</button>
-        </section>
-
-        <section class="card results-section" style="display: none;">
-            <h2 class="card-title">Generated Prompts</h2>
-            <div class="prompts-container" id="promptsContainer">
-                <!-- Prompt cards will be inserted here -->
-            </div>
-
-            <div class="actions">
-                <button id="saveBtn" class="btn btn-secondary">Save Prompts</button>
-                <button id="newPromptBtn" class="btn">Create New</button>
-            </div>
-        </section>
-
-        <section class="card saved-prompts" style="display: none;">
-            <h2 class="card-title">Saved Prompts</h2>
-            <div class="saved-list" id="savedList">
-                <!-- Saved prompts will be inserted here -->
-            </div>
-        </section>
-
-        <div class="notification" id="notification"></div>
+        </div>
+        
+        <div class="game-grid" id="game-grid">
+            <!-- Grid cells will be generated by JavaScript -->
+        </div>
+        
+        <div class="next-block">
+            <p>Next Block</p>
+            <div class="next-block-display" id="next-block"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="new-game">New Game</button>
+            <button id="add-block">Add Block</button>
+        </div>
+    </div>
+    
+    <div class="instructions">
+        <p>Drag and drop number blocks to merge them. Try to reach 2048!</p>
     </div>
 
-    <footer>
-        <p>PromptCraft - AI Prompt Generator & Enhancer | Designed for Gemini API</p>
-    </footer>
-
     <script>
-        // DOM Elements
-        const userInput = document.getElementById('userInput');
-        const generateBtn = document.getElementById('generateBtn');
-        const refineBtn = document.getElementById('refineBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const newPromptBtn = document.getElementById('newPromptBtn');
-        const promptsContainer = document.getElementById('promptsContainer');
-        const savedList = document.getElementById('savedList');
-        const notification = document.getElementById('notification');
-        const enhancementSection = document.querySelector('.enhancement-section');
-        const resultsSection = document.querySelector('.results-section');
-        const savedPromptsSection = document.querySelector('.saved-prompts');
-
-        // Configuration - Replace with your actual API key
-        const GEMINI_API_KEY = 'AIzaSyBboVl5sj3lrHtz84CMJpJDRTpA9Y9SS-8';
-        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-
-        // Application State
-        let currentPrompts = [];
-        let savedPrompts = JSON.parse(localStorage.getItem('savedPrompts')) || [];
-
-        // Initialize the application
-        function init() {
-            displaySavedPrompts();
-            generateBtn.addEventListener('click', generatePrompts);
-            refineBtn.addEventListener('click', refinePrompts);
-            saveBtn.addEventListener('click', savePrompts);
-            newPromptBtn.addEventListener('click', resetUI);
-        }
-
-        // Generate prompts based on user input
-        async function generatePrompts() {
-            const inputText = userInput.value.trim();
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameGrid = document.getElementById('game-grid');
+            const scoreElement = document.getElementById('score');
+            const bestElement = document.getElementById('best');
+            const nextBlockElement = document.getElementById('next-block');
+            const newGameButton = document.getElementById('new-game');
+            const addBlockButton = document.getElementById('add-block');
             
-            if (!inputText) {
-                showNotification('Please describe what you want to create', true);
-                return;
+            let score = 0;
+            let best = localStorage.getItem('bestScore') || 0;
+            let nextBlockValue = getRandomBlockValue();
+            let draggedBlock = null;
+            
+            bestElement.textContent = best;
+            
+            // Create the 4x4 grid
+            for (let i = 0; i < 16; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.dataset.index = i;
+                gameGrid.appendChild(cell);
             }
             
-            showNotification('Generating prompts...');
+            // Initialize next block display
+            updateNextBlock();
             
-            try {
-                // Call the Gemini API
-                const prompts = await generatePromptsWithGemini(inputText);
-                
-                currentPrompts = prompts;
-                displayPrompts(prompts);
-                
-                enhancementSection.style.display = 'block';
-                resultsSection.style.display = 'block';
-                
-                showNotification('Prompts generated successfully!');
-            } catch (error) {
-                console.error('Error generating prompts:', error);
-                showNotification('Failed to generate prompts. Please try again.', true);
-            }
-        }
-
-        // Generate prompts using Gemini API
-        async function generatePromptsWithGemini(inputText) {
-            const requestBody = {
-                contents: [{
-                    parts: [{
-                        text: `Generate three variations of prompts for creating: ${inputText}. 
-                        Each prompt should be tailored for a different code generation model (Gemini Pro, Gemini Ultra, and a general code model). 
-                        Return the response as a JSON array with model and text fields.`
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.9,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 2048
-                }
-            };
-
-            const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            });
-
-            if (!response.ok) {
-                throw new Error(`API error: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const responseText = data.candidates[0].content.parts[0].text;
+            // Add initial blocks
+            addRandomBlock();
+            addRandomBlock();
             
-            // Extract JSON from the response
-            const jsonMatch = responseText.match(/\[[\s\S]*\]/);
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[0]);
+            // Event listeners
+            newGameButton.addEventListener('click', startNewGame);
+            addBlockButton.addEventListener('click', addRandomBlock);
+            
+            // Initialize drag and drop
+            initDragAndDrop();
+            
+            function getRandomBlockValue() {
+                return Math.random() < 0.8 ? 2 : 4;
             }
             
-            // Fallback to mock data if JSON parsing fails
-            return await mockGeneratePrompts(inputText);
-        }
-
-        // Refine prompts based on user selections
-        async function refinePrompts() {
-            showNotification('Refining prompts...');
-            
-            const language = document.getElementById('language').value;
-            const style = document.getElementById('style').value;
-            const complexity = document.getElementById('complexity').value;
-            const format = document.getElementById('format').value;
-            
-            const modernStyling = document.getElementById('modernStyling').checked;
-            const responsiveDesign = document.getElementById('responsiveDesign').checked;
-            const hoverEffects = document.getElementById('hoverEffects').checked;
-            const animations = document.getElementById('animations').checked;
-            
-            try {
-                // Enhance the prompts using Gemini API
-                const enhancedPrompts = await enhancePromptsWithGemini(
-                    currentPrompts, 
-                    language, 
-                    style, 
-                    complexity, 
-                    format,
-                    modernStyling,
-                    responsiveDesign,
-                    hoverEffects,
-                    animations
-                );
-                
-                currentPrompts = enhancedPrompts;
-                displayPrompts(enhancedPrompts);
-                
-                showNotification('Prompts refined successfully!');
-            } catch (error) {
-                console.error('Error refining prompts:', error);
-                showNotification('Failed to refine prompts. Please try again.', true);
-            }
-        }
-
-        // Enhance prompts using Gemini API
-        async function enhancePromptsWithGemini(prompts, language, style, complexity, format, modernStyling, responsiveDesign, hoverEffects, animations) {
-            const enhancementInstructions = `
-                Enhance these code generation prompts with the following specifications:
-                - Programming Language: ${language}
-                - Code Style: ${style}
-                - Complexity Level: ${complexity}
-                - Output Format: ${format}
-                ${modernStyling ? '- Add modern CSS styling: linear gradients, rounded corners, subtle shadows' : ''}
-                ${responsiveDesign ? '- Ensure responsive design for all screen sizes' : ''}
-                ${hoverEffects ? '- Include hover effects with smooth transitions' : ''}
-                ${animations ? '- Add subtle animations for interactions' : ''}
-                
-                Return the enhanced prompts as a JSON array with the same structure.
-            `;
-
-            const requestBody = {
-                contents: [{
-                    parts: [{
-                        text: `${enhancementInstructions}\n\nOriginal Prompts: ${JSON.stringify(prompts)}`
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 2048
-                }
-            };
-
-            const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            });
-
-            if (!response.ok) {
-                throw new Error(`API error: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const responseText = data.candidates[0].content.parts[0].text;
-            
-            // Extract JSON from the response
-            const jsonMatch = responseText.match(/\[[\s\S]*\]/);
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[0]);
+            function updateNextBlock() {
+                nextBlockElement.textContent = nextBlockValue;
+                nextBlockElement.className = 'number-block next-block-display';
+                nextBlockElement.classList.add(`block-${nextBlockValue}`);
             }
             
-            // Fallback to local enhancement if API fails
-            return enhancePromptsLocally(
-                prompts, 
-                language, 
-                style, 
-                complexity, 
-                format,
-                modernStyling,
-                responsiveDesign,
-                hoverEffects,
-                animations
-            );
-        }
-
-        // Display prompts in the UI
-        function displayPrompts(prompts) {
-            promptsContainer.innerHTML = '';
-            
-            prompts.forEach((prompt, index) => {
-                const promptCard = document.createElement('div');
-                promptCard.className = 'prompt-card card';
+            function addRandomBlock() {
+                const emptyCells = Array.from(document.querySelectorAll('.grid-cell:not(.has-block)'));
+                if (emptyCells.length === 0) return;
                 
-                const modelBadge = document.createElement('span');
-                modelBadge.className = 'model-badge';
-                modelBadge.textContent = prompt.model;
+                const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
                 
-                const promptContent = document.createElement('div');
-                promptContent.className = 'prompt-content';
-                promptContent.textContent = prompt.text;
+                const block = document.createElement('div');
+                block.className = `number-block block-${nextBlockValue}`;
+                block.textContent = nextBlockValue;
+                block.draggable = true;
+                block.dataset.value = nextBlockValue;
                 
-                promptCard.appendChild(modelBadge);
-                promptCard.appendChild(promptContent);
+                randomCell.appendChild(block);
+                randomCell.classList.add('has-block');
                 
-                promptsContainer.appendChild(promptCard);
-            });
-        }
-
-        // Save prompts to local storage
-        function savePrompts() {
-            if (currentPrompts.length === 0) {
-                showNotification('No prompts to save', true);
-                return;
+                // Set next block value
+                nextBlockValue = getRandomBlockValue();
+                updateNextBlock();
             }
             
-            const saveName = prompt('Enter a name for these prompts:');
-            if (!saveName) return;
-            
-            const promptPackage = {
-                name: saveName,
-                prompts: currentPrompts,
-                timestamp: new Date().toISOString()
-            };
-            
-            savedPrompts.push(promptPackage);
-            localStorage.setItem('savedPrompts', JSON.stringify(savedPrompts));
-            
-            displaySavedPrompts();
-            savedPromptsSection.style.display = 'block';
-            
-            showNotification('Prompts saved successfully!');
-        }
-
-        // Display saved prompts
-        function displaySavedPrompts() {
-            if (savedPrompts.length === 0) {
-                savedPromptsSection.style.display = 'none';
-                return;
+            function initDragAndDrop() {
+                document.addEventListener('dragstart', (e) => {
+                    if (e.target.classList.contains('number-block')) {
+                        draggedBlock = e.target;
+                        e.target.style.opacity = '0.5';
+                    }
+                });
+                
+                document.addEventListener('dragend', (e) => {
+                    if (e.target.classList.contains('number-block')) {
+                        e.target.style.opacity = '1';
+                    }
+                });
+                
+                document.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                });
+                
+                document.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    if (!draggedBlock) return;
+                    
+                    const targetCell = e.target.closest('.grid-cell');
+                    if (!targetCell) return;
+                    
+                    const sourceCell = draggedBlock.parentElement;
+                    
+                    // If dropping on same cell, do nothing
+                    if (sourceCell === targetCell) return;
+                    
+                    // If target cell is empty, move the block
+                    if (!targetCell.classList.contains('has-block')) {
+                        sourceCell.classList.remove('has-block');
+                        targetCell.appendChild(draggedBlock);
+                        targetCell.classList.add('has-block');
+                    } 
+                    // If target cell has a block with the same value, merge
+                    else if (targetCell.querySelector('.number-block').dataset.value === draggedBlock.dataset.value) {
+                        const value = parseInt(draggedBlock.dataset.value);
+                        const newValue = value * 2;
+                        
+                        // Update score
+                        score += newValue;
+                        scoreElement.textContent = score;
+                        
+                        // Update best score if needed
+                        if (score > best) {
+                            best = score;
+                            bestElement.textContent = best;
+                            localStorage.setItem('bestScore', best);
+                        }
+                        
+                        // Create merged block
+                        const mergedBlock = document.createElement('div');
+                        mergedBlock.className = `number-block block-${newValue}`;
+                        mergedBlock.textContent = newValue;
+                        mergedBlock.draggable = true;
+                        mergedBlock.dataset.value = newValue;
+                        
+                        // Remove both blocks and add merged one
+                        sourceCell.classList.remove('has-block');
+                        sourceCell.removeChild(draggedBlock);
+                        
+                        targetCell.classList.remove('has-block');
+                        targetCell.removeChild(targetCell.querySelector('.number-block'));
+                        
+                        targetCell.appendChild(mergedBlock);
+                        targetCell.classList.add('has-block');
+                        
+                        // Add animation for merging
+                        mergedBlock.style.transform = 'scale(0)';
+                        setTimeout(() => {
+                            mergedBlock.style.transform = 'scale(1)';
+                        }, 10);
+                    }
+                    
+                    draggedBlock = null;
+                });
             }
             
-            savedList.innerHTML = '';
-            savedPromptsSection.style.display = 'block';
-            
-            savedPrompts.forEach((item, index) => {
-                const savedItem = document.createElement('div');
-                savedItem.className = 'saved-item card';
+            function startNewGame() {
+                // Clear the grid
+                document.querySelectorAll('.grid-cell').forEach(cell => {
+                    cell.classList.remove('has-block');
+                    while (cell.firstChild) {
+                        cell.removeChild(cell.firstChild);
+                    }
+                });
                 
-                const itemName = document.createElement('h3');
-                itemName.textContent = item.name;
+                // Reset score
+                score = 0;
+                scoreElement.textContent = score;
                 
-                const itemDate = document.createElement('p');
-                itemDate.textContent = new Date(item.timestamp).toLocaleDateString();
-                itemDate.style.fontSize = '0.9rem';
-                itemDate.style.color = 'var(--gray)';
-                
-                const loadButton = document.createElement('button');
-                loadButton.className = 'btn';
-                loadButton.textContent = 'Load';
-                loadButton.style.marginTop = '10px';
-                loadButton.addEventListener('click', () => loadPrompt(index));
-                
-                savedItem.appendChild(itemName);
-                savedItem.appendChild(itemDate);
-                savedItem.appendChild(loadButton);
-                
-                savedList.appendChild(savedItem);
-            });
-        }
-
-        // Load a saved prompt
-        function loadPrompt(index) {
-            if (index < 0 || index >= savedPrompts.length) return;
-            
-            const promptPackage = savedPrompts[index];
-            currentPrompts = promptPackage.prompts;
-            
-            displayPrompts(currentPrompts);
-            enhancementSection.style.display = 'block';
-            resultsSection.style.display = 'block';
-            
-            // Scroll to results
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-            
-            showNotification('Prompt loaded successfully!');
-        }
-
-        // Reset the UI for a new prompt
-        function resetUI() {
-            userInput.value = '';
-            currentPrompts = [];
-            promptsContainer.innerHTML = '';
-            
-            enhancementSection.style.display = 'none';
-            resultsSection.style.display = 'none';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Show notification
-        function showNotification(message, isError = false) {
-            notification.textContent = message;
-            notification.className = 'notification' + (isError ? ' error' : '');
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Mock function to generate prompts (fallback if API fails)
-        async function mockGeneratePrompts(inputText) {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            return [
-                {
-                    model: "Gemini Pro",
-                    text: `Create a complete, functional ${inputText} using HTML, CSS, and JavaScript. 
-                    The application should have a modern UI with a gradient background, rounded corners, and subtle shadows. 
-                    Implement responsive design principles to ensure it works well on mobile, tablet, and desktop devices.
-                    Include at least three interactive features with smooth animations and transitions.`
-                },
-                {
-                    model: "Gemini Ultra",
-                    text: `Develop an advanced version of ${inputText} with a focus on performance and accessibility. 
-                    Use modern CSS features like Flexbox and Grid for layout. Implement dark/light mode toggle and save user preferences to local storage.
-                    Ensure the code is well-commented and follows best practices for maintainability.`
-                },
-                {
-                    model: "Code Generation Model",
-                    text: `Build a professional-grade ${inputText} with a clean, minimalist design. 
-                    Use JavaScript ES6+ features and modular code structure. Include form validation where applicable and provide user feedback with subtle animations.
-                    Optimize for SEO and ensure cross-browser compatibility.`
-                }
-            ];
-        }
-
-        // Enhance prompts locally (fallback if API fails)
-        function enhancePromptsLocally(prompts, language, style, complexity, format, modernStyling, responsiveDesign, hoverEffects, animations) {
-            return prompts.map(prompt => {
-                let enhancedText = prompt.text;
-                
-                // Add language specification
-                enhancedText = enhancedText.replace(/using HTML, CSS, and JavaScript/, `using ${language}`);
-                
-                // Add style specification
-                enhancedText += ` The code should follow a ${style} coding style.`;
-                
-                // Add complexity level
-                enhancedText += ` The implementation should be at a ${complexity} complexity level.`;
-                
-                // Add output format
-                enhancedText += ` The output should be in ${format} format.`;
-                
-                // Add styling enhancements
-                if (modernStyling) {
-                    enhancedText += ` Use modern CSS including linear gradients, border-radius, and box-shadow for depth.`;
-                }
-                
-                if (responsiveDesign) {
-                    enhancedText += ` Implement responsive design using media queries for various screen sizes.`;
-                }
-                
-                if (hoverEffects) {
-                    enhancedText += ` Include hover effects with smooth transitions for interactive elements.`;
-                }
-                
-                if (animations) {
-                    enhancedText += ` Add subtle animations for page transitions and user interactions.`;
-                }
-                
-                return {
-                    model: prompt.model,
-                    text: enhancedText
-                };
-            });
-        }
-
-        // Initialize the application when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+                // Add new blocks
+                addRandomBlock();
+                addRandomBlock();
+            }
+        });
     </script>
 </body>
 </html>
